@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 
-for file in *.png *.jpg *.jpeg; do
-  cjxl "$file" "${file%.*}.jxl" --lossless_jpeg=1
+# Convert all images to PNG format for swww compatibility
+for file in *.jpg *.jpeg *.jxl; do
+  if [[ -f "$file" ]]; then
+    output="${file%.*}.png"
+    echo "Converting $file to $output"
+    magick "$file" "$output"
+  fi
 done
-rm *.png *.jpg *.jpeg
+
+# Remove non-PNG files
+rm -f *.jpg *.jpeg *.jxl
+
+echo "All wallpapers converted to PNG format"
